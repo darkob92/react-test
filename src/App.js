@@ -20,7 +20,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <UserInput changed={this.inputChangeHandler} currentText={this.state.text}/>
+          <UserInput 
+            changed={this.inputChangeHandler} 
+            currentText={this.state.text}
+          />
           <Toggle text={this.state.text}/>
           <a
             className="App-link"

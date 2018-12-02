@@ -6,21 +6,31 @@ import UserInput from './input/UserInput';
 
 class App extends Component {
 
-
-
   state = {
     text: 'Toggle',
     color: '',
     toggleOn: true
   }
 
+  getColor = async (e) => {
+
+    const apiCall = await fetch('http://www.colr.org/json/color/random');
+    const data = await apiCall.json();
+    console.log(data.new_color);
+
+    this.setState({
+      color: `#${data.new_color}`
+    })
+  }
+
+  /* input change handler handler */
   inputChangeHandler = (event) => {
     this.setState({ text: event.target.value })
   }
 
+  /* toggle comment handler */
   toggleHandler = () => {
-    let newColor = this.state.color === '' ? 'yellow' : '';
-    this.setState({toggleOn: false, color: newColor});
+    this.setState({toggleOn: false, color: this.state.color});
   }
 
   render() {
@@ -33,7 +43,12 @@ class App extends Component {
             changed={this.inputChangeHandler} 
             currentText={this.state.text}
           />
-          <Toggle text={this.state.text} onClick={this.toggleHandler} changed={this.toggleHandler}/>
+          <Toggle 
+            text={this.state.text} 
+            onClick={this.toggleHandler} 
+            changed={this.toggleHandler}
+            getColor={this.getColor}
+          />
           <a
             className="App-link"
             href="https://reactjs.org"

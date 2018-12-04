@@ -8,7 +8,7 @@ const toggle = (props) => {
       <button 
         type='button' 
         className='f6 link dim ph3 pv2 mb2 dib white bg-dark-blue toggle' 
-        onClick={props.changed && props.getColor}
+        onClick={props.changeColor}
         >
         {props.text}
       </button>

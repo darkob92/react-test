@@ -8,20 +8,28 @@ class App extends Component {
 
   state = {
     text: 'Toggle',
-    color: '',
-    toggleOn: true
+    color: ['#000'],
+    toggleOn: false
   }
 
-  getColor = async (e) => {
-
-    const apiCall = await fetch('http://www.colr.org/json/color/random');
-    const data = await apiCall.json();
-    console.log(data.new_color);
-
-    this.setState({
-      color: `#${data.new_color}`
-    })
+  getColor() {
+    fetch('http://www.colr.org/json/colors/random/2')
+      .then(response => response.json())
+      .then((res) => {
+        const colors = [];
+        colors.push(res.matching_colors[0], res.matching_colors[1])
+        this.setState({
+          color: colors
+        })
+        console.log(colors);
+      })
   }
+
+  componentDidMount() {
+    this.getColor();
+    console.log(this.state.color[0]);
+  }
+
 
   /* input change handler handler */
   inputChangeHandler = (event) => {
@@ -29,15 +37,17 @@ class App extends Component {
   }
 
   /* toggle comment handler */
-  toggleHandler = () => {
-    this.setState({toggleOn: false, color: this.state.color});
+  toggleHandler = (e) => {
+    this.setState({toggleOn: true, color: this.state.color});
+    console.log(this.state.color[0]);
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header"
-          style={{ backgroundColor: `${this.state.color}` }}>
+          style={{backgroundColor: `#${this.state.color[0]}`}}
+        >
           <img src={logo} className="App-logo" alt="logo" />
           <UserInput 
             changed={this.inputChangeHandler} 
@@ -45,9 +55,7 @@ class App extends Component {
           />
           <Toggle 
             text={this.state.text} 
-            onClick={this.toggleHandler} 
-            changed={this.toggleHandler}
-            getColor={this.getColor}
+            changeColor={this.toggleHandler} 
           />
           <a
             className="App-link"

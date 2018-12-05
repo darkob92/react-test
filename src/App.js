@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     text: 'Toggle',
     color: [],
-    toggleOn: false
+    toggleOn: null
   }
 
   getColor() {
@@ -27,7 +27,6 @@ class App extends Component {
 
   componentDidMount() {
     this.getColor();
-    console.log(this.state.color[0]);
   }
 
 
@@ -38,9 +37,8 @@ class App extends Component {
 
   /* toggle comment handler */
   toggleHandler = (e) => {
-    const random = this.state.color[Math.floor(Math.random() * this.state.color.length)];
-    this.setState({toggleOn: !this.state.toggleOn, color: random});
-    console.log(random);
+    this.setState({toggleOn: !this.state.toggleOn, color: this.state.color});
+    console.log(this.state.color);
 
     e.preventDefault();
   }
@@ -51,10 +49,10 @@ class App extends Component {
       backgroundColor: '#000'
     }
 
-    if(this.state.toggleOn) {
-      styleBack.backgroundColor = `#${this.state.color}`;
+    if(this.state.toggleOn === true) {
+      styleBack.backgroundColor = `#${this.state.color[Math.floor(Math.random() * this.state.color.length)]}`;
     }
-
+    
     return (
       <div className="App">
         <header className="App-header"
